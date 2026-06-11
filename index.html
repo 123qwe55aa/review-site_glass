@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="玻璃工艺学分章节复习与背题网站" />
+    <title>玻璃工艺学 · 复习熔炉</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="heat heat-a"></div>
+    <div class="heat heat-b"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="返回首页">
+        <span class="brand-mark">SiO₂</span>
+        <span>
+          <strong>玻璃工艺学</strong>
+          <small>复习熔炉 / GLASS REVIEW</small>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="复习工具">
+        <button class="icon-button" id="searchButton" title="搜索题目">搜索 <kbd>/</kbd></button>
+        <button class="icon-button" id="resetButton" title="重置学习进度">重置进度</button>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <aside class="sidebar">
+        <div class="progress-panel">
+          <div class="progress-head">
+            <span>总复习进度</span>
+            <strong id="progressPercent">0%</strong>
+          </div>
+          <div class="progress-track"><span id="progressBar"></span></div>
+          <div class="progress-meta">
+            <span><b id="masteredCount">0</b> 已掌握</span>
+            <span><b id="reviewCount">0</b> 待回炉</span>
+          </div>
+        </div>
+
+        <div class="chapter-label">章节目录</div>
+        <nav id="chapterNav" class="chapter-nav" aria-label="章节目录"></nav>
+
+        <div class="source-note">
+          <span>资料基底</span>
+          <strong>18 份课件 + 重点问答</strong>
+          <small>题目答案以《无机221-胡锡鸿》为主；新增课件题均在题卡上标注来源页码，方便核对。</small>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <section class="chapter-hero">
+          <div>
+            <span class="eyebrow" id="chapterNumber">CHAPTER 01</span>
+            <h1 id="chapterTitle">玻璃结构与组成</h1>
+            <p id="chapterSubtitle"></p>
+          </div>
+          <div class="chapter-stat">
+            <span>本章题量</span>
+            <strong id="chapterQuestionCount">0</strong>
+            <small>道重点题</small>
+          </div>
+        </section>
+
+        <div class="view-tabs" role="tablist">
+          <button class="view-tab active" data-view="overview">知识点归纳</button>
+          <button class="view-tab" data-view="cards">分章节背题</button>
+          <button class="view-tab" data-view="sources">原始课件</button>
+        </div>
+
+        <section id="overviewView" class="view active">
+          <div class="section-heading">
+            <div>
+              <span>MEMORY MAP</span>
+              <h2>先搭骨架，再填细节</h2>
+            </div>
+            <button class="primary-button" id="startChapterButton">开始背本章</button>
+          </div>
+          <div id="keyPoints" class="key-point-grid"></div>
+          <div class="memory-box">
+            <span class="memory-box-label">本章记忆钩子</span>
+            <p id="memoryHook"></p>
+          </div>
+        </section>
+
+        <section id="cardsView" class="view">
+          <div class="card-toolbar">
+            <div class="mode-switch">
+              <button class="active" data-mode="sequence">顺序</button>
+              <button data-mode="shuffle">乱序</button>
+              <button data-mode="review">只看待回炉</button>
+            </div>
+            <span id="cardPosition">1 / 1</span>
+          </div>
+
+          <article class="flashcard" id="flashcard">
+            <div class="card-topline">
+              <span id="cardTag">核心题</span>
+              <span id="cardStatus">未标记</span>
+            </div>
+            <div class="question-side">
+              <span>QUESTION</span>
+              <h2 id="questionText"></h2>
+              <button class="reveal-button" id="revealButton">点击翻面看答案 <kbd>Space</kbd></button>
+            </div>
+            <div class="answer-side" id="answerSide">
+              <span>ANSWER</span>
+              <div id="answerText"></div>
+            </div>
+          </article>
+
+          <div class="card-actions">
+            <button class="secondary-button" id="prevButton">← 上一题</button>
+            <button class="judgement review" id="markReviewButton">
+              <span>还不熟</span><small>需要再背一次</small>
+            </button>
+            <button class="judgement mastered" id="markMasteredButton">
+              <span>已掌握</span><small>这题记住了</small>
+            </button>
+            <button class="secondary-button" id="nextButton">下一题 →</button>
+          </div>
+        </section>
+
+        <section id="sourcesView" class="view">
+          <div class="section-heading">
+            <div>
+              <span>SOURCE SHELF</span>
+              <h2>回到原课件查细节</h2>
+            </div>
+          </div>
+          <div id="sourceList" class="source-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="searchDialog">
+      <form method="dialog" class="search-shell">
+        <div class="search-input-wrap">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索题目、答案或知识点…" autocomplete="off" />
+          <button aria-label="关闭搜索">关闭</button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
