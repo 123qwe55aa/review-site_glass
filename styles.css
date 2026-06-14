@@ -249,6 +249,28 @@ dialog::backdrop { background: rgba(22,21,19,.66); backdrop-filter: blur(6px); }
 .exam-notice-close:hover { background: rgba(255,255,255,.1); color: #ccc; }
 .exam-notice.hidden { display: none; }
 
+/* ── Exam Notice Banner (top of page) ───────────────────────── */
+.exam-notif {
+  background: #3a2a0a; border-bottom: 1px solid #b8860b;
+  padding: 0; position: relative; z-index: 10;
+}
+.exam-notif-inner {
+  max-width: 1200px; margin: 0 auto; padding: 8px 20px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; font-size: 13px;
+}
+.exam-notif-icon { font-size: 18px; }
+.exam-notif-text { flex: 1; color: #e8d8a0; }
+.exam-notif-text strong { color: #f5d742; }
+.exam-notif-link { color: #f5d742; font-weight: 500; text-decoration: none; }
+.exam-notif-link:hover { text-decoration: underline; }
+.exam-notif-close {
+  background: none; border: none; color: #6a5a2a; cursor: pointer;
+  font-size: 16px; padding: 2px 8px; border-radius: 4px;
+}
+.exam-notif-close:hover { background: rgba(255,255,255,.1); color: #ccc; }
+.exam-notif.hidden { display: none; }
+
 /* ── Exam Key Topics ─────────────────────────────────────────── */
 .exam-list { display: flex; flex-direction: column; gap: 20px; }
 .exam-card {
