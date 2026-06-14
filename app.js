@@ -571,6 +571,152 @@ function bindEvents() {
 bindEvents();
 renderChapter();
 
+// ── Exam Key Topics (7 大必考专题) ─────────────────────────────
+const EXAM_TOPICS = [
+  {
+    id: "cao",
+    title: "1. 氧化钙的两重性（高低温）",
+    summary: [
+      "CaO 在玻璃中表现出 <span class='highlight'>高温断网、低温积聚</span> 的双重作用。",
+      "<span class='highlight'>高温时</span>：CaO 提供游离氧（O²⁻）并极化桥氧，削弱 Si-O-Si 键，降低高温粘度和熔化温度，有利于熔制。",
+      "<span class='highlight'>低温时</span>：Ca²⁺ 场强大（Z/r² 高），产生积聚作用（accumulation），使网络致密、阻碍 Na⁺ 迁移，提高耐水性和电阻率，并使料性变短（short working range）。",
+      "因此机械化快速成形配方可适当提高 CaO 含量——低温硬化快、定形迅速，适应高速机速；但需兼顾析晶倾向和熔制性能。"
+    ],
+    chapters: [{ id: "ch1", title: "第一章 玻璃结构、组成与热历史" }]
+  },
+  {
+    id: "boron",
+    title: "2. 硼反常（Boron Anomaly）",
+    summary: [
+      "向 B₂O₃ 玻璃中加入碱金属氧化物时，<span class='highlight'>性质不是单调按断网规律变化，而出现极值</span>，称为硼反常。",
+      "<span class='highlight'>结构原因</span>：碱提供的游离氧优先使 <span class='formula'>[BO₃]</span>（平面三角）转变为 <span class='formula'>[BO₄]</span>（四面体），由桥氧连接，将二维层状结构转为更完整的三维网络。",
+      "网络连接增强 → 热膨胀系数下降、化学稳定性提高、硬度上升。",
+      "当碱含量继续升高、游离氧过剩后，<span class='formula'>[BO₄]</span> 重新转变为 <span class='formula'>[BO₃]</span> 并产生非桥氧，性质发生逆转。"
+    ],
+    chapters: [{ id: "ch1", title: "第一章 玻璃结构、组成与热历史" }]
+  },
+  {
+    id: "nucleation",
+    title: "3. 晶粒成核：动力、方式、晶粒大小与光-力学性质",
+    summary: [
+      "<span class='highlight'>成核动力</span>：过冷度（ΔT）增大 → 体积自由能降幅增大 → 析晶驱动力增强。但温度过低时粘度上升、扩散变慢，成核/生长速率先升后降，存在极大值。",
+      "<span class='highlight'>成核方式</span>：均匀成核（自发，需克服界面能势垒）与非均匀成核（借助相界/杂质，润湿角越小势垒越低）。",
+      "<span class='highlight'>晶粒大小控制</span>：获得多而细 → 在成核速率高、生长慢的温区充分保温；获得大晶粒 → 快速越过成核温区再在生长温区长保温。",
+      "<span class='highlight'>分相机理</span>：亚稳分解（S 区，自发波动→连通结构）与成核-生长分相（N 区，需势垒→滴状分散）。分相可为成核提供界面、富集成核剂。",
+      "<span class='highlight'>微晶玻璃</span>：组成确定后，热处理制度决定晶核数量、晶粒尺寸、晶相种类和残余玻璃相比例，直接决定力学、热学和光学性能。"
+    ],
+    chapters: [
+      { id: "ch3", title: "第三章 成核、晶体生长与微晶玻璃" },
+      { id: "ch4", title: "第四章 玻璃分相与失透" }
+    ]
+  },
+  {
+    id: "viscosity",
+    title: "4. 熔体粘度变化与热膨胀（β ≈ 3α）",
+    summary: [
+      "<span class='highlight'>粘度-温度关系</span>：温度升高 → 四面体群解聚、空隙增大 → 小单元易移动 → 粘度下降。Fulcher 方程：<span class='formula'>lg η = A + B/(T − T₀)</span>。",
+      "<span class='highlight'>O/Si 比</span>升高 → 非桥氧增多、网络连接下降 → 粘度下降。",
+      "<span class='highlight'>料性</span>：长料性（温区宽、机速慢），短料性（温区窄、机速快——CaO 使其变短）。",
+      "<span class='highlight'>关键粘度点</span>：退火点 10¹² Pa·s，应变点 ~10¹³·⁴ Pa·s，软化点附近玻璃自重变形。",
+      "<span class='highlight'>热膨胀系数</span>：各向同性玻璃的体积膨胀系数 β ≈ <span class='highlight'>3 倍</span> 线膨胀系数 α。α = ΔL/(L₀·ΔT)。"
+    ],
+    chapters: [
+      { id: "ch5", title: "第五章 玻璃粘度与表面性质" },
+      { id: "ch7", title: "第七章 玻璃热学性质" }
+    ]
+  },
+  {
+    id: "expansion",
+    title: "5. 氧化物组成对热膨胀系数的影响",
+    summary: [
+      "<span class='highlight'>网络形成体</span>（SiO₂、B₂O₃）及 <span class='highlight'>补网组分</span>（Al₂O₃、ZnO 等中间体）加强键合、限制热振动 → <span class='highlight'>降低</span> 热膨胀系数。",
+      "<span class='highlight'>断网组分</span>（碱金属/碱土金属氧化物，产生非桥氧）削弱网络 → <span class='highlight'>增大</span> 热膨胀系数。",
+      "<span class='highlight'>温度效应</span>：温度升高 → 原子振动幅度增大、非谐性增强 → α 增大；接近 Tg 时结构调整更明显。",
+      "设计低膨胀玻璃方向：增加 SiO₂、B₂O₃、Al₂O₃，限制过量碱。"
+    ],
+    chapters: [{ id: "ch7", title: "第七章 玻璃热学性质" }]
+  },
+  {
+    id: "water",
+    title: "6. 水汽对玻璃的侵蚀作用",
+    summary: [
+      "<span class='highlight'>起始反应</span>：H⁺ + Na⁺（玻璃）→ 离子交换，形成表面 Si-OH（硅羟基），碱进入水相。",
+      "<span class='highlight'>水汽 vs 大量水</span>：大量水可稀释并带走碱 → 侵蚀较慢；<span class='highlight'>微小水膜</span> 不能及时移走碱 → 碱不断累积、pH 快速升高 → 转为强烈的 <span class='highlight'>OH⁻ 攻击硅氧网络</span>。",
+      "<span class='highlight'>碱侵蚀</span>：OH⁻ 直接攻击 Si-O-Si 键 → 形成 Si-OH + 硅酸离子 → 可溶或附着硅酸盐。",
+      "<span class='highlight'>大气侵蚀</span>：水膜 → 碱性膜（溶出碱）→ 继续吸附 H₂O、CO₂、SOₓ → 破坏网络。",
+      "<span class='highlight'>抑制措施</span>：减少过量碱、加入补网组分、避免连通易侵蚀相、表面涂层/离子交换保护。"
+    ],
+    chapters: [{ id: "ch9", title: "第九章 玻璃化学稳定性" }]
+  },
+  {
+    id: "metal-bridge",
+    title: "7. SnO / PbO 作为金属桥的作用",
+    summary: [
+      "SnO 结构具有不对称性（孤电子对 → 配位不饱和），可在玻璃氧与金属之间形成 <span class='highlight'>电子和结构过渡</span>，实现玻璃与金属（如 Au）的封接。",
+      "<span class='highlight'>金属桥示意</span>：<span class='formula'>玻璃—O²⁻—½Sn⁴⁺—½Sn⁰—Au—½Sn⁰—½Sn⁴⁺—O²⁻—玻璃</span>",
+      "Sn 以混合价态（Sn⁴⁺ + Sn⁰）存在：Sn⁴⁺ 与玻璃网络中的 O²⁻ 成键，Sn⁰ 与金属 Au 形成金属键，从而连接两相。",
+      "PbO（氧化亚铅）有类似作用：Pb²⁺ 的孤电子对和易极化性使其能在玻璃与金属间形成过渡。PbO 含量高时可降低玻璃粘度并提高折射率。"
+    ],
+    chapters: [{ id: "ch1", title: "第一章 玻璃结构、组成与热历史" }]
+  }
+];
+
+function renderExamTopics() {
+  const el = $("#examList");
+  if (!el) return;
+  el.innerHTML = EXAM_TOPICS.map((topic) => `
+    <div class="exam-card" data-topic="${topic.id}">
+      <div class="exam-card-header">
+        <span class="num">${topic.title.charAt(0)}</span>
+        <h3>${topic.title.replace(/^\d+\.\s*/, "")}</h3>
+        <span class="toggle">▼</span>
+      </div>
+      <div class="exam-card-body">
+        ${topic.summary.map((p) => `<p>${p}</p>`).join("")}
+      </div>
+      <div class="exam-card-chapters">
+        ${topic.chapters.map((ch) => `<span class="chip" data-chapter="${ch.id}">→ ${ch.title}</span>`).join("")}
+      </div>
+    </div>`).join("");
+  el.querySelectorAll(".exam-card-header").forEach((header) =>
+    header.addEventListener("click", () => {
+      const card = header.closest(".exam-card");
+      card.classList.toggle("open");
+      header.querySelector(".toggle").textContent = card.classList.contains("open") ? "▲" : "▼";
+    })
+  );
+  el.querySelectorAll(".exam-card-chapters .chip").forEach((chip) =>
+    chip.addEventListener("click", () => {
+      selectChapter(chip.dataset.chapter);
+      selectView("cards");
+    })
+  );
+}
+
+// ── Wire up exam notice + exam view tab ────────────────────────
+$("#examNotice")?.addEventListener("click", (e) => {
+  if (e.target.closest(".exam-notice-close")) return;
+  renderExamTopics();
+  selectView("exam");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+$("#examNoticeClose")?.addEventListener("click", () => {
+  $("#examNotice").classList.add("hidden");
+});
+$("#examViewCardsBtn")?.addEventListener("click", () => {
+  selectView("cards");
+});
+
+// Add exam tab to view tabs
+const viewTabs = document.querySelector(".view-tabs");
+if (viewTabs) {
+  const tab = document.createElement("button");
+  tab.className = "view-tab";
+  tab.dataset.view = "exam";
+  tab.textContent = "📚 考试重点";
+  viewTabs.appendChild(tab);
+}
+
 // ── Countdown Timer ──────────────────────────────────────────────
 const DEADLINE = new Date("2026-06-17T05:00:00Z"); // 2026.06.17 13:00 UTC+8
 function updateCountdown() {

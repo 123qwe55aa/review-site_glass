@@ -230,3 +230,57 @@ dialog::backdrop { background: rgba(22,21,19,.66); backdrop-filter: blur(6px); }
   .card-actions { grid-template-columns: 1fr 1fr; }
   .secondary-button { order: 2; }
 }
+
+/* ── Exam Notice Banner ─────────────────────────────────────── */
+.exam-notice {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+  background: #3a2a0a; border: 1px solid #b8860b; border-radius: 8px;
+  margin-bottom: 12px; cursor: pointer; transition: .2s;
+}
+.exam-notice:hover { background: #4a3a1a; }
+.exam-notice-icon { font-size: 20px; }
+.exam-notice-body { flex: 1; }
+.exam-notice-body strong { display: block; font-size: 13px; color: #f5d742; }
+.exam-notice-body small { font-size: 10px; color: #b4a47a; }
+.exam-notice-close {
+  background: none; border: none; color: #6a5a2a; cursor: pointer;
+  font-size: 14px; padding: 2px 6px; border-radius: 4px;
+}
+.exam-notice-close:hover { background: rgba(255,255,255,.1); color: #ccc; }
+.exam-notice.hidden { display: none; }
+
+/* ── Exam Key Topics ─────────────────────────────────────────── */
+.exam-list { display: flex; flex-direction: column; gap: 20px; }
+.exam-card {
+  background: var(--glass); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; display: grid; gap: 10px;
+}
+.exam-card-header {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+}
+.exam-card-header .num {
+  display: grid; place-items: center; width: 36px; height: 36px;
+  border-radius: 50%; background: #b8860b; color: #171716;
+  font: 700 14px "DM Mono", monospace; flex-shrink: 0;
+}
+.exam-card-header h3 { font-size: 15px; margin: 0; flex: 1; }
+.exam-card-header .toggle { font-size: 12px; color: var(--muted); }
+.exam-card-body {
+  font-size: 13px; line-height: 1.7; color: var(--text); display: none;
+  padding: 8px 0 0 46px; border-top: 1px solid rgba(255,255,255,.05);
+}
+.exam-card.open .exam-card-body { display: block; }
+.exam-card-body p { margin: 0 0 6px; }
+.exam-card-body .formula { color: #f5d742; font: 500 13px "DM Mono", monospace; }
+.exam-card-body .highlight { color: #f04b23; font-weight: 500; }
+.exam-card-chapters {
+  display: flex; gap: 6px; flex-wrap: wrap; padding: 0 0 0 46px;
+}
+.exam-card-chapters .chip {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  background: rgba(255,255,255,.06); font-size: 11px; color: var(--muted);
+  cursor: pointer; border: 1px solid transparent; transition: .2s;
+}
+.exam-card-chapters .chip:hover {
+  border-color: #b8860b; color: #f5d742; background: rgba(184,134,11,.15);
+}

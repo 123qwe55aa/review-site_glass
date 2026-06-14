@@ -28,6 +28,14 @@
 
     <main class="shell">
       <aside class="sidebar">
+        <div class="exam-notice" id="examNotice">
+          <span class="exam-notice-icon">📚</span>
+          <div class="exam-notice-body">
+            <strong>考试重点速览</strong>
+            <small>7 大必考专题 · 点击跳转</small>
+          </div>
+          <button class="exam-notice-close" id="examNoticeClose" aria-label="关闭通知">✕</button>
+        </div>
         <div class="progress-panel">
           <div class="progress-head">
             <span>总复习进度</span>
@@ -141,6 +149,17 @@
             </div>
           </div>
           <div id="sourceList" class="source-list"></div>
+        </section>
+
+        <section id="examView" class="view">
+          <div class="section-heading">
+            <div>
+              <span>📚 考试重点</span>
+              <h2>7 大必考专题 · 精要速览</h2>
+            </div>
+            <button class="primary-button" id="examViewCardsBtn">进入背题模式</button>
+          </div>
+          <div id="examList" class="exam-list"></div>
         </section>
       </section>
     </main>
