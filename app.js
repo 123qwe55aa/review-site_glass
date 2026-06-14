@@ -694,11 +694,15 @@ function renderExamTopics() {
 }
 
 // ── Wire up exam notice + exam view tab ────────────────────────
-$("#examNotice")?.addEventListener("click", (e) => {
-  if (e.target.closest(".exam-notice-close")) return;
+function openExamView() {
   renderExamTopics();
   selectView("exam");
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("#examNotice")?.addEventListener("click", (e) => {
+  if (e.target.closest(".exam-notice-close")) return;
+  openExamView();
 });
 $("#examNoticeClose")?.addEventListener("click", () => {
   $("#examNotice").classList.add("hidden");
@@ -715,9 +719,11 @@ if (viewTabs) {
   tab.dataset.view = "exam";
   tab.textContent = "📚 考试重点";
   viewTabs.appendChild(tab);
+  tab.addEventListener("click", () => openExamView());
 }
 
 // ── Countdown Timer ──────────────────────────────────────────────
+renderExamTopics();
 const DEADLINE = new Date("2026-06-17T05:00:00Z"); // 2026.06.17 13:00 UTC+8
 function updateCountdown() {
   const now = new Date();

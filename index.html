@@ -25,6 +25,16 @@
         <button class="icon-button" id="resetButton" title="重置学习进度">重置进度</button>
       </nav>
     </header>
+    <div class="exam-notif" id="examNotif">
+      <div class="exam-notif-inner">
+        <span class="exam-notif-icon">🔥</span>
+        <span class="exam-notif-text">
+          <strong>7 个考试必考知识点</strong> 已为你整理完毕
+        </span>
+        <a class="exam-notif-link" href="#" id="examNotifLink">查看 →</a>
+        <button class="exam-notif-close" id="examNotifClose" aria-label="关闭">✕</button>
+      </div>
+    </div>
 
     <main class="shell">
       <aside class="sidebar">
@@ -85,6 +95,7 @@
         <div class="view-tabs" role="tablist">
           <button class="view-tab active" data-view="overview">知识点归纳</button>
           <button class="view-tab" data-view="cards">分章节背题</button>
+          <button class="view-tab" data-view="exam">🔥 考试必考</button>
           <button class="view-tab" data-view="sources">原始课件</button>
         </div>
 
@@ -175,6 +186,7 @@
       </form>
     </dialog>
 
+    <script src="./exam-essentials.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
