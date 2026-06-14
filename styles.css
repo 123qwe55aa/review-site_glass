@@ -292,8 +292,9 @@ dialog::backdrop { background: rgba(22,21,19,.66); backdrop-filter: blur(6px); }
   padding: 8px 0 0 46px; border-top: 1px solid rgba(255,255,255,.05);
 }
 .exam-card.open .exam-card-body { display: block; }
-.exam-card-body table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
-.exam-card-body table td { padding: 6px 8px; border: 1px solid var(--line); vertical-align: top; }
+.exam-card-body table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+.exam-card-body table td { padding: 6px 10px; border: 1px solid var(--line); vertical-align: top; }
+.exam-card-body table tr:first-child td { font-weight: 600; background: rgba(255,255,255,.06); }
 .exam-card-body p { margin: 0 0 6px; }
 .exam-card-body .formula { color: #f5d742; font: 500 13px "DM Mono", monospace; }
 .exam-card-body .highlight { color: #f04b23; font-weight: 500; }

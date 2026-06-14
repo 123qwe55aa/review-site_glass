@@ -573,7 +573,7 @@ renderChapter();
 
 // ── Exam Key Topics — render Antigravity-generated data ─────
 function mdToHtml(md) {
-  // Render display math ($$...$$) and inline math ($...$) via KaTeX directly
+  // 1. KaTeX display math ($$...$$)
   md = md.replace(/\$\$([\s\S]*?)\$\$/g, (_, formula) => {
     if (typeof katex !== "undefined") {
       try { return katex.renderToString(formula.trim(), {displayMode: true, throwOnError: false}); }
@@ -581,6 +581,7 @@ function mdToHtml(md) {
     }
     return formula.trim();
   });
+  // 2. KaTeX inline math ($...$)
   md = md.replace(/\$(.+?)\$/g, (_, formula) => {
     if (typeof katex !== "undefined") {
       try { return katex.renderToString(formula.trim(), {displayMode: false, throwOnError: false}); }
@@ -588,7 +589,7 @@ function mdToHtml(md) {
     }
     return formula.trim();
   });
-  // Standard markdown
+  // 3. Standard markdown
   md = md
     .replace(/^#### (.+)$/gm, "<h4>$1</h4>")
     .replace(/^### (.+)$/gm, "<h3>$1</h3>")
@@ -597,16 +598,22 @@ function mdToHtml(md) {
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-  // Convert pipe tables: | a | b | → <table><tr><td>a</td><td>b</td></tr></table>
-  md = md.replace(/^\|(.+)\|$/gm, (m) => {
-    if (m.includes("---")) return "";
-    const cells = m.split("|").filter(Boolean);
-    return `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join("")}</tr>`;
+  // 4. Pipe tables: consecutive | rows → single <table>
+  md = md.replace(/(^\|.+\|\n?)+/gm, (block) => {
+    const rows = block.trim().split("\n").filter(l => !l.includes("---"));
+    return "<table>" + rows.map(row =>
+      "<tr>" + row.split("|").filter(Boolean).map(c => "<td>" + c.trim() + "</td>").join("") + "</tr>"
+    ).join("") + "</table>";
   });
-  md = md.replace(/(<tr>.*?<\/tr>(?:\n?<tr>.*?<\/tr>)*)/g, '<table>$1</table>');
-  // Wrap in paragraphs
-  md = "<p>" + md.replace(/\n\n/g, "</p><p>") + "</p>";
-  md = md.replace(/<p><\/p>/g, "").replace(/<\/p>\n<p>/g, "</p><p>");
+  // 5. Wrap text paragraphs, leaving block HTML intact
+  const blocks = md.split(/\n\n+/);
+  md = blocks.map(block => {
+    block = block.trim();
+    if (!block) return "";
+    // If already starts with a block HTML element, don't wrap in <p>
+    if (/^<(table|h[1-4]|blockquote|ul|ol|li)/.test(block)) return block;
+    return "<p>" + block.replace(/\n/g, "<br>") + "</p>";
+  }).join("\n");
   return md;
 }
 
