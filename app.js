@@ -573,16 +573,22 @@ renderChapter();
 
 // ── Exam Key Topics — render Antigravity-generated data ─────
 function mdToHtml(md) {
-  // Protect math blocks from markdown processing
-  const blocks = [];
-  md = md.replace(/\$\$[\s\S]*?\$\$/g, (m) => {
-    blocks.push(m);
-    return `\x00MATHBLOCK${blocks.length - 1}\x00`;
+  // Render display math ($$...$$) and inline math ($...$) via KaTeX directly
+  md = md.replace(/\$\$([\s\S]*?)\$\$/g, (_, formula) => {
+    if (typeof katex !== "undefined") {
+      try { return katex.renderToString(formula.trim(), {displayMode: true, throwOnError: false}); }
+      catch(e) { return formula.trim(); }
+    }
+    return formula.trim();
   });
-  md = md.replace(/\$[^$\n]+?\$/g, (m) => {
-    blocks.push(m);
-    return `\x00MATHBLOCK${blocks.length - 1}\x00`;
+  md = md.replace(/\$(.+?)\$/g, (_, formula) => {
+    if (typeof katex !== "undefined") {
+      try { return katex.renderToString(formula.trim(), {displayMode: false, throwOnError: false}); }
+      catch(e) { return formula.trim(); }
+    }
+    return formula.trim();
   });
+  // Standard markdown
   md = md
     .replace(/^#### (.+)$/gm, "<h4>$1</h4>")
     .replace(/^### (.+)$/gm, "<h3>$1</h3>")
@@ -591,8 +597,6 @@ function mdToHtml(md) {
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
-  // Restore math blocks
-  md = md.replace(/\x00MATHBLOCK(\d+)\x00/g, (_, i) => blocks[+i]);
   // Wrap in paragraphs
   md = "<p>" + md.replace(/\n\n/g, "</p><p>") + "</p>";
   md = md.replace(/<p><\/p>/g, "").replace(/<\/p>\n<p>/g, "</p><p>");
@@ -618,16 +622,6 @@ function renderExamTopics() {
       header.querySelector(".toggle").textContent = card.classList.contains("open") ? "▲" : "▼";
     })
   );
-  // Render KaTeX math
-  if (typeof renderMathInElement !== "undefined") {
-    renderMathInElement(el, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false}
-      ],
-      throwOnError: false
-    });
-  }
 }
 
 // ── Wire up exam UI ───────────────────────────────────────────
