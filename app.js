@@ -563,3 +563,26 @@ function bindEvents() {
 
 bindEvents();
 renderChapter();
+
+// ── Countdown Timer ──────────────────────────────────────────────
+const DEADLINE = new Date("2026-06-17T05:00:00Z"); // 2026.06.17 13:00 UTC+8
+function updateCountdown() {
+  const now = new Date();
+  const diff = DEADLINE - now;
+  const el = document.getElementById("countdownDisplay");
+  const panel = document.querySelector(".countdown-panel");
+  if (!el) return;
+  if (diff <= 0) {
+    el.textContent = "已截止";
+    if (panel) panel.classList.add("expired");
+    return;
+  }
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  el.textContent = `${days}d ${String(hours).padStart(2,"0")}:${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+  if (panel) panel.classList.remove("expired");
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);

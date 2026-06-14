@@ -88,6 +88,20 @@ kbd { font: 500 10px "DM Mono", monospace; border: 1px solid var(--line); border
 .progress-track { height: 3px; margin: 15px 0; background: rgba(255,255,255,.18); overflow: hidden; }
 .progress-track span { display: block; width: 0; height: 100%; background: var(--orange); transition: width .35s; }
 .progress-meta b { color: white; font: 500 12px "DM Mono", monospace; }
+
+.countdown-panel {
+  background: linear-gradient(135deg, #4a1f1a 0%, #2d1517 100%);
+  padding: 16px 18px; border-radius: 12px; margin-bottom: 28px;
+  border: 1px solid rgba(240, 75, 35, .25);
+}
+.countdown-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.countdown-head span { font-size: 11px; color: #e8a090; letter-spacing: .06em; }
+.countdown-head strong { font: 500 20px "DM Mono", monospace; color: #ff6333; }
+.countdown-meta { margin-top: 8px; }
+.countdown-meta span { font-size: 10px; color: #b09088; letter-spacing: .04em; }
+.countdown-panel.expired { border-color: #f04b23; }
+.countdown-panel.expired .countdown-head strong { color: #f04b23; animation: pulse 1s ease infinite; }
+@keyframes pulse { 50% { opacity: .5; } }
 .chapter-label { padding: 0 10px 11px; }
 .chapter-nav { display: grid; gap: 4px; }
 .chapter-link {
