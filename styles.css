@@ -185,6 +185,11 @@ kbd { font: 500 10px "DM Mono", monospace; border: 1px solid var(--line); border
 .pdf-badge { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); font: 500 9px "DM Mono", monospace; color: var(--orange-dark); }
 .source-item strong { font-size: 13px; }
 .source-item small { color: var(--muted); font: 400 9px "DM Mono", monospace; }
+.source-image {
+  display: grid; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--glass);
+}
+.source-image img { width: 100%; max-width: 600px; justify-self: center; border-radius: 4px; }
+.source-image .image-label { font-size: 11px; color: var(--muted); text-align: center; }
 
 dialog { width: min(760px, calc(100vw - 28px)); border: 0; border-radius: 14px; padding: 0; background: var(--paper); box-shadow: 0 30px 100px rgba(0,0,0,.3); }
 dialog::backdrop { background: rgba(22,21,19,.66); backdrop-filter: blur(6px); }

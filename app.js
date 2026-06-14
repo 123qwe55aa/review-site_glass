@@ -212,7 +212,7 @@ const chapters = [
     subtitle: "",
     hook: "",
     points: [],
-    sources: ["玻璃工艺学-第13课时光学.pdf", "玻璃工艺学-第14课时-1.pdf"],
+    sources: ["玻璃工艺学-第13课时光学.pdf", "玻璃工艺学-第14课时-1.pdf", "images/9.4-金属胶体着色.png"],
     questions: [
       ["什么是玻璃折射率？其主要结构决定因素是什么？", "折射率可表示为真空光速与玻璃中光速之比，也可由入射角和折射角的正弦比表示；主要取决于玻璃密度和离子、电子云极化率。", "名词解释"],
       ["为什么铅玻璃的折射率通常高于石英玻璃？", "铅玻璃密度高，Pb²⁺及其周围氧离子的电子云易极化，分子折射度大，因此折射率较高。", "分析"],
@@ -399,12 +399,19 @@ function renderChapter() {
       <h3>${point[0]}</h3>
       <p>${point[1]}</p>
     </article>`).join("");
-  $("#sourceList").innerHTML = chapter.sources.map((source) => `
-    <a class="source-item" href="./pdfs/${encodeURIComponent(source)}" target="_blank">
+  $("#sourceList").innerHTML = chapter.sources.map((source) => {
+    if (source.match(/\.(png|jpe?g|gif|svg)$/i)) {
+      return `<div class="source-item source-image">
+        <img src="./${source}" alt="${source}" loading="lazy" />
+        <span class="image-label">${source.replace(/^images\//, "").replace(/\.\w+$/, "")}</span>
+      </div>`;
+    }
+    return `<a class="source-item" href="./pdfs/${encodeURIComponent(source)}" target="_blank">
       <span class="pdf-badge">PDF</span>
       <strong>${source.replace(".pdf", "")}</strong>
       <small>打开压缩版 ↗</small>
-    </a>`).join("");
+    </a>`;
+  }).join("");
   buildCardOrder();
   renderCard();
   renderNav();
