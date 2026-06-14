@@ -572,6 +572,33 @@ bindEvents();
 renderChapter();
 
 // ── Exam Key Topics — render Antigravity-generated data ─────
+function mdToHtml(md) {
+  // Protect math blocks from markdown processing
+  const blocks = [];
+  md = md.replace(/\$\$[\s\S]*?\$\$/g, (m) => {
+    blocks.push(m);
+    return `\x00MATHBLOCK${blocks.length - 1}\x00`;
+  });
+  md = md.replace(/\$[^$\n]+?\$/g, (m) => {
+    blocks.push(m);
+    return `\x00MATHBLOCK${blocks.length - 1}\x00`;
+  });
+  md = md
+    .replace(/^#### (.+)$/gm, "<h4>$1</h4>")
+    .replace(/^### (.+)$/gm, "<h3>$1</h3>")
+    .replace(/^## (.+)$/gm, "<h2>$1</h2>")
+    .replace(/^# (.+)$/gm, "<h1>$1</h1>")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Restore math blocks
+  md = md.replace(/\x00MATHBLOCK(\d+)\x00/g, (_, i) => blocks[+i]);
+  // Wrap in paragraphs
+  md = "<p>" + md.replace(/\n\n/g, "</p><p>") + "</p>";
+  md = md.replace(/<p><\/p>/g, "").replace(/<\/p>\n<p>/g, "</p><p>");
+  return md;
+}
+
 function renderExamTopics() {
   const el = $("#examList");
   if (!el || typeof examEssentials === "undefined") return;
@@ -591,26 +618,16 @@ function renderExamTopics() {
       header.querySelector(".toggle").textContent = card.classList.contains("open") ? "▲" : "▼";
     })
   );
-}
-
-// Simple markdown → HTML for exam essentials content
-function mdToHtml(md) {
-  return md
-    .replace(/^#### (.+)$/gm, "<h4>$1</h4>")
-    .replace(/^### (.+)$/gm, "<h3>$1</h3>")
-    .replace(/^## (.+)$/gm, "<h2>$1</h2>")
-    .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-    .replace(/^\|(.+)\|$/gm, (m) => {
-      if (m.includes("---")) return "";
-      const cells = m.split("|").filter(Boolean);
-      return `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join("")}</tr>`;
-    })
-    .replace(/^<tr>.*<\/tr>$/gm, "")
-    .replace(/\n\n/g, "</p><p>")
-    .replace(/\n/g, "<br/>");
+  // Render KaTeX math
+  if (typeof renderMathInElement !== "undefined") {
+    renderMathInElement(el, {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$", right: "$", display: false}
+      ],
+      throwOnError: false
+    });
+  }
 }
 
 // ── Wire up exam UI ───────────────────────────────────────────
