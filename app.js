@@ -597,6 +597,13 @@ function mdToHtml(md) {
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Convert pipe tables: | a | b | → <table><tr><td>a</td><td>b</td></tr></table>
+  md = md.replace(/^\|(.+)\|$/gm, (m) => {
+    if (m.includes("---")) return "";
+    const cells = m.split("|").filter(Boolean);
+    return `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join("")}</tr>`;
+  });
+  md = md.replace(/(<tr>.*?<\/tr>(?:\n?<tr>.*?<\/tr>)*)/g, '<table>$1</table>');
   // Wrap in paragraphs
   md = "<p>" + md.replace(/\n\n/g, "</p><p>") + "</p>";
   md = md.replace(/<p><\/p>/g, "").replace(/<\/p>\n<p>/g, "</p><p>");
