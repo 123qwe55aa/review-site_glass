@@ -457,7 +457,8 @@ function renderCard() {
   const status = state.progress[id];
   $("#questionText").textContent = question;
   $("#answerText").textContent = answer;
-  $("#cardTag").textContent = tag;
+  const isHuxigang = question.includes("胡锡鸿补充");
+  $("#cardTag").textContent = tag === "高频" ? (isHuxigang ? "🔥 高频补充" : "🔥 高频") : tag;
   $("#cardTag").className = tag === "高频" ? "tag-highfreq" : "";
   $("#cardStatus").textContent = status === "mastered" ? "已掌握" : status === "review" ? "待回炉" : "未标记";
   $("#cardPosition").textContent = `${state.cardIndex + 1} / ${state.cardOrder.length}`;
