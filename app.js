@@ -446,6 +446,7 @@ function renderCard() {
     $("#questionText").textContent = state.mode === "review" ? "本章暂时没有待回炉题目。" : "本章没有题目。";
     $("#answerText").textContent = "切换到顺序模式继续复习。";
     $("#cardTag").textContent = "EMPTY";
+    $("#cardTag").className = "";
     $("#cardStatus").textContent = "—";
     $("#cardPosition").textContent = "0 / 0";
     $("#answerSide").classList.remove("visible");
@@ -457,6 +458,7 @@ function renderCard() {
   $("#questionText").textContent = question;
   $("#answerText").textContent = answer;
   $("#cardTag").textContent = tag;
+  $("#cardTag").className = tag === "高频" ? "tag-highfreq" : "";
   $("#cardStatus").textContent = status === "mastered" ? "已掌握" : status === "review" ? "待回炉" : "未标记";
   $("#cardPosition").textContent = `${state.cardIndex + 1} / ${state.cardOrder.length}`;
   $("#answerSide").classList.toggle("visible", state.revealed);
