@@ -159,23 +159,52 @@ kbd { font: 500 10px "DM Mono", monospace; border: 1px solid var(--line); border
 .flashcard {
   min-height: 440px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.65);
   padding: clamp(24px, 5vw, 54px); box-shadow: 0 28px 80px rgba(41,35,25,.08); position: relative; overflow: hidden;
+  transition: box-shadow .3s;
 }
-.flashcard::before { content: ""; position: absolute; left: 0; top: 0; width: 7px; height: 100%; background: var(--orange); }
+.flashcard.supplement {
+  background: rgba(255,248,240,.75);
+  box-shadow: 0 28px 80px rgba(240,75,35,.08), inset 0 0 80px rgba(240,75,35,.03);
+}
+.flashcard::before {
+  content: ""; position: absolute; left: 0; top: 0; width: 7px; height: 100%;
+  background: var(--orange); transition: background .3s, width .3s, box-shadow .3s;
+}
+.flashcard.supplement::before {
+  width: 8px;
+  background: linear-gradient(180deg, #f04b23 0%, #ff3860 50%, #ff6b35 100%);
+  box-shadow: 3px 0 20px rgba(240,75,35,.3);
+}
+.flashcard.supplement::after {
+  content: "补充"; position: absolute; right: -20px; top: 30px;
+  font: 700 72px/1 "DM Mono", monospace; color: rgba(240,75,35,.05);
+  transform: rotate(12deg); pointer-events: none; user-select: none;
+}
 .card-topline { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font: 500 10px "DM Mono", monospace; }
 .tag-highfreq {
   background: linear-gradient(135deg, #f04b23 0%, #ff3860 50%, #ff6b35 100%);
   color: white;
-  padding: 4px 14px;
+  padding: 6px 20px;
   border-radius: 99px;
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: .08em;
-  box-shadow: 0 2px 12px rgba(240, 75, 35, 0.5), 0 0 20px rgba(240, 75, 35, 0.2);
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: .1em;
+  box-shadow: 0 2px 16px rgba(240, 75, 35, 0.5), 0 0 30px rgba(240, 75, 35, 0.25);
   animation: freq-pulse 2s ease-in-out infinite;
+  position: relative;
+}
+.tag-highfreq::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: freq-shine 3s ease-in-out infinite;
 }
 @keyframes freq-pulse {
-  0%, 100% { box-shadow: 0 2px 12px rgba(240, 75, 35, 0.5); }
-  50% { box-shadow: 0 2px 20px rgba(240, 75, 35, 0.8), 0 0 30px rgba(240, 75, 35, 0.3); }
+  0%, 100% { box-shadow: 0 2px 16px rgba(240, 75, 35, 0.5), 0 0 30px rgba(240, 75, 35, 0.25); }
+  50% { box-shadow: 0 2px 28px rgba(240, 75, 35, 0.7), 0 0 50px rgba(240, 75, 35, 0.35); }
+}
+@keyframes freq-shine {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: -50% 0; }
 }
 .question-side { max-width: 900px; padding: 58px 0 18px; }
 .question-side > span, .answer-side > span { color: var(--orange-dark); font: 500 10px "DM Mono", monospace; letter-spacing: .2em; }
